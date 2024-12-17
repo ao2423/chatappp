@@ -1,0 +1,46 @@
+plugins {
+    id 'war'
+    id 'eclipse-wtp'
+    id 'application'
+}
+
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(17) // Java 17を指定
+    }
+}
+
+eclipse {
+    wtp {
+        facet {
+            facet name: 'jst.web', version: '6.0' // Jakarta EE 9対応
+        }
+    }
+}
+
+repositories {
+    mavenCentral() // Maven Centralリポジトリを指定
+}
+
+dependencies {
+    // Tomcat 10用 Servlet API
+    implementation 'org.apache.tomcat:tomcat-servlet-api:10.1.+'
+    // JSTL (Jakarta版)
+    runtimeOnly 'org.glassfish.web:jakarta.servlet.jsp.jstl:3.0.+'
+    // Mockito
+    testImplementation 'org.mockito:mockito-junit-jupiter:5.+'
+    // Gson
+    implementation 'com.google.code.gson:gson:2.10.1'
+    // WebSocket API (Jakarta版)
+    implementation 'jakarta.websocket:jakarta.websocket-api:2.0.0' // Jakarta WebSocket APIの最新バージョン
+    // JSONライブラリ
+    implementation 'org.json:json:20210307'
+    
+    // Tomcat WebSocketをサポート
+    implementation 'org.apache.tomcat:tomcat-websocket:10.1.+' // Tomcat 10 WebSocketサポート
+    implementation 'org.apache.tomcat:tomcat-coyote:10.1.+' // Tomcat用Coyote（HTTPのコアコンポーネント）
+}
+
+application {
+    mainClass = 'com.example.chat.ChatApplication' // エントリーポイントのクラス
+}
